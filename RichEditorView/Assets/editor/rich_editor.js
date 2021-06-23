@@ -17,6 +17,10 @@
 
 var RE = {};
 
+window.testFunction = function() {
+
+}
+
 window.onload = function() {
     RE.callback("ready");
 };
@@ -60,6 +64,82 @@ RE.editor.addEventListener("focus", function() {
 
 RE.editor.addEventListener("blur", function() {
     RE.callback("blur");
+});
+
+RE.editor.addEventListener("paste", function(e) {
+    let pasteHtml = ""
+    if (window["clipboardData"] && window["clipboardData"].getData) { // IE 支援
+        pasteHtml = window["clipboardData"].getData('text/html');
+    } else if (e.clipboardData && e.clipboardData.getData) {
+        pasteHtml = e.clipboardData.getData('text/html');
+    }
+    e.preventDefault();
+
+    let divContent = document.createElement('div');
+    divContent.innerHTML = pasteHtml;
+    divContent.contentEditable = true;
+    document.body.append(divContent);
+    // divContent.setAttribute('style', 'display: none');
+    // divContent.hidden = true;
+    let pTags = divContent.getElementsByTagName('p');
+    let spanTags = divContent.getElementsByTagName('span');
+    let olTags = divContent.getElementsByTagName('ol');
+    let ulTags = divContent.getElementsByTagName('ul');
+
+    let pList = Array.prototype.slice.call(pTags);
+    let spanList = Array.prototype.slice.call(spanTags);
+    let olList = Array.prototype.slice.call(olTags);
+    let ulList = Array.prototype.slice.call(ulTags);
+
+    if(olList !== null && olList !== undefined) {
+        olList.forEach(ele => {
+            ele.style = 'word-break: break-all;';
+        })
+    }
+    if(ulList !== null && ulList !== undefined) {
+        ulList.forEach(ele => {
+            ele.style = 'word-break: break-all;';
+        })
+    }
+    if(pList !== null && pList !== undefined) {
+        pList.forEach(ele => {
+            let style = String(ele.style.cssText);
+            let match = style.match(/(padding|margin)(-top|-left|-right|-bottom)?:(\s*(\d*(.\d*)?(em|rem|px|)|auto)){1,4}\s*(!important)?;/gi);
+            //組裝 style
+            let transStyle = '';
+            if (match && match.length > 0) {
+            match.forEach(m => {
+                transStyle += m;
+            })
+        }
+        ele.style = transStyle;
+        })
+    }
+    if(spanList !== null && spanList !== undefined) {
+        spanList.forEach(ele => {
+            ele.style = '';
+        })
+    }
+
+    let range = document.createRange();
+    let sel =  window.getSelection();
+    range.selectNodeContents(divContent);
+    let orignalSel = sel.getRangeAt(0);
+    sel.removeAllRanges();
+    sel.addRange(range);
+    document.execCommand('removeFormat', false, null);
+
+    sel.removeAllRanges();
+    sel.addRange(orignalSel);
+
+    let lastPasteHtml = divContent.innerHTML;
+    if(lastPasteHtml !== null && lastPasteHtml!== undefined) {
+        lastPasteHtml = lastPasteHtml.replace(/(<h1|<h2|<h3|<h4|<h5)/gi, '<p');
+        lastPasteHtml =  lastPasteHtml.replace(/(\/h1>|\/h2>|\/h3>|\/h4>|\/h5>)/gi, '/p>');
+    }
+    window.document.execCommand('insertHTML', false, lastPasteHtml);
+
+    document.body.removeChild(divContent);
 });
 
 RE.customAction = function(action) {

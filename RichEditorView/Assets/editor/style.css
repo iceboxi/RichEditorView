@@ -21,6 +21,7 @@ html {
 }
 
 body {
+    font-size: 15px;
     min-height: 100%;
     overflow: auto;
 }
@@ -55,7 +56,8 @@ div {
     height: 100%;
     overflow: auto;
     display: block;
-    font-family: 'HelveticaNeue';
+    /* font-family: 'HelveticaNeue'; */
     color:#666666;
-    font-size: 12pt;
+    /* font-size: 12pt; */
+    font-size: 15px;
 }
