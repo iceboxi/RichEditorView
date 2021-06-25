@@ -78,9 +78,11 @@ RE.editor.addEventListener("paste", function(e) {
     let divContent = document.createElement('div');
     divContent.innerHTML = pasteHtml;
     divContent.contentEditable = "true";
+    divContent.id = 'editor-div'
     document.body.append(divContent);
     // divContent.setAttribute('style', 'display: none');
     // divContent.hidden = true;
+    word_filter($('#editor-div'));
     let pTags = divContent.getElementsByTagName('p');
     let spanTags = divContent.getElementsByTagName('span');
     let olTags = divContent.getElementsByTagName('ol');
