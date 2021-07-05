@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3912A4561B966C34005E41FA /* ObjCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3912A4551B966C34005E41FA /* ObjCViewController.m */; };
+		0CCBA517EA66E1DE61C19F69 /* Pods_RichEditorViewSample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CA6B4DFCB1BCDED9BE91A70 /* Pods_RichEditorViewSample.framework */; };
 		39883B491AD0DC270031FD16 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39883B481AD0DC270031FD16 /* KeyboardManager.swift */; };
 		39BBCFB01AD0CC7A00A450D2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BBCFAF1AD0CC7A00A450D2 /* AppDelegate.swift */; };
 		39BBCFB21AD0CC7A00A450D2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BBCFB11AD0CC7A00A450D2 /* ViewController.swift */; };
@@ -15,7 +15,6 @@
 		39BBCFB71AD0CC7A00A450D2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39BBCFB61AD0CC7A00A450D2 /* Images.xcassets */; };
 		39BBCFBA1AD0CC7A00A450D2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 39BBCFB81AD0CC7A00A450D2 /* LaunchScreen.xib */; };
 		39BBCFC61AD0CC7A00A450D2 /* RichEditorViewSampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BBCFC51AD0CC7A00A450D2 /* RichEditorViewSampleTests.swift */; };
-		8050D47971761721BD230098 /* Pods_RichEditorViewSample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B08474865AD37062B47B6FC /* Pods_RichEditorViewSample.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,9 +28,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1CA6B4DFCB1BCDED9BE91A70 /* Pods_RichEditorViewSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RichEditorViewSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3912A4531B966C34005E41FA /* RichEditorViewSample-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RichEditorViewSample-Bridging-Header.h"; sourceTree = "<group>"; };
-		3912A4541B966C34005E41FA /* ObjCViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjCViewController.h; sourceTree = "<group>"; };
-		3912A4551B966C34005E41FA /* ObjCViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjCViewController.m; sourceTree = "<group>"; };
 		39883B481AD0DC270031FD16 /* KeyboardManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
 		39BBCFAA1AD0CC7A00A450D2 /* RichEditorViewSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RichEditorViewSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		39BBCFAE1AD0CC7A00A450D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -44,11 +42,10 @@
 		39BBCFC41AD0CC7A00A450D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		39BBCFC51AD0CC7A00A450D2 /* RichEditorViewSampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RichEditorViewSampleTests.swift; sourceTree = "<group>"; };
 		39BBCFD01AD0CD4700A450D2 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		39BBCFD11AD0CD4700A450D2 /* RichEditorView.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RichEditorView.podspec; path = ../RichEditorView.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		6B08474865AD37062B47B6FC /* Pods_RichEditorViewSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RichEditorViewSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		39BBCFD11AD0CD4700A450D2 /* RichEditorView.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RichEditorView.podspec; path = ../RichEditorView.podspec; sourceTree = "<group>"; };
 		996D5C7A9F5BD7BF325118C8 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9B582B140F0E905BD9BB4CDC /* Pods-RichEditorViewSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RichEditorViewSample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RichEditorViewSample/Pods-RichEditorViewSample.debug.xcconfig"; sourceTree = "<group>"; };
-		DF7C9E8B387E1FE81E9D90D5 /* Pods-RichEditorViewSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RichEditorViewSample.release.xcconfig"; path = "Pods/Target Support Files/Pods-RichEditorViewSample/Pods-RichEditorViewSample.release.xcconfig"; sourceTree = "<group>"; };
+		9AF21FE45EA87DF1498534F6 /* Pods-RichEditorViewSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RichEditorViewSample.release.xcconfig"; path = "Pods/Target Support Files/Pods-RichEditorViewSample/Pods-RichEditorViewSample.release.xcconfig"; sourceTree = "<group>"; };
+		C6E2423BEEB12C12D184ACDD /* Pods-RichEditorViewSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RichEditorViewSample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RichEditorViewSample/Pods-RichEditorViewSample.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,7 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8050D47971761721BD230098 /* Pods_RichEditorViewSample.framework in Frameworks */,
+				0CCBA517EA66E1DE61C19F69 /* Pods_RichEditorViewSample.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,7 +71,7 @@
 			isa = PBXGroup;
 			children = (
 				996D5C7A9F5BD7BF325118C8 /* Pods.framework */,
-				6B08474865AD37062B47B6FC /* Pods_RichEditorViewSample.framework */,
+				1CA6B4DFCB1BCDED9BE91A70 /* Pods_RichEditorViewSample.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -87,7 +84,7 @@
 				39BBCFC21AD0CC7A00A450D2 /* RichEditorViewSampleTests */,
 				39BBCFAB1AD0CC7A00A450D2 /* Products */,
 				106F1EB9E1302E9C38A73C48 /* Frameworks */,
-				5E972C95110016647DA0258D /* Pods */,
+				6B97E8B97DF9831B87D18089 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -110,8 +107,6 @@
 				39BBCFB81AD0CC7A00A450D2 /* LaunchScreen.xib */,
 				39BBCFAD1AD0CC7A00A450D2 /* Supporting Files */,
 				39883B481AD0DC270031FD16 /* KeyboardManager.swift */,
-				3912A4541B966C34005E41FA /* ObjCViewController.h */,
-				3912A4551B966C34005E41FA /* ObjCViewController.m */,
 				3912A4531B966C34005E41FA /* RichEditorViewSample-Bridging-Header.h */,
 			);
 			path = RichEditorViewSample;
@@ -151,11 +146,11 @@
 			name = "Pod Metadata";
 			sourceTree = "<group>";
 		};
-		5E972C95110016647DA0258D /* Pods */ = {
+		6B97E8B97DF9831B87D18089 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				9B582B140F0E905BD9BB4CDC /* Pods-RichEditorViewSample.debug.xcconfig */,
-				DF7C9E8B387E1FE81E9D90D5 /* Pods-RichEditorViewSample.release.xcconfig */,
+				C6E2423BEEB12C12D184ACDD /* Pods-RichEditorViewSample.debug.xcconfig */,
+				9AF21FE45EA87DF1498534F6 /* Pods-RichEditorViewSample.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -167,12 +162,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 39BBCFC91AD0CC7A00A450D2 /* Build configuration list for PBXNativeTarget "RichEditorViewSample" */;
 			buildPhases = (
-				6B720C7FD832C2688C648355 /* [CP] Check Pods Manifest.lock */,
+				4E74B098CF14DF0631DC2B86 /* [CP] Check Pods Manifest.lock */,
 				39BBCFA61AD0CC7A00A450D2 /* Sources */,
 				39BBCFA71AD0CC7A00A450D2 /* Frameworks */,
 				39BBCFA81AD0CC7A00A450D2 /* Resources */,
-				EC2C7387672E1DFFBAB4967D /* [CP] Embed Pods Frameworks */,
-				F58AA77B1F1E89A768AFC497 /* [CP] Copy Pods Resources */,
+				912CF3E5DB1B7FACFF97C026 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -208,25 +202,25 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Caesar Wirth";
 				TargetAttributes = {
 					39BBCFA91AD0CC7A00A450D2 = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = XATA46WWFJ;
-						LastSwiftMigration = 0900;
+						DevelopmentTeam = 3JV32ZE9SY;
+						LastSwiftMigration = "";
+						ProvisioningStyle = Manual;
 					};
 					39BBCFBE1AD0CC7A00A450D2 = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = XATA46WWFJ;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = "";
 						TestTargetID = 39BBCFA91AD0CC7A00A450D2;
 					};
 				};
 			};
 			buildConfigurationList = 39BBCFA51AD0CC7A00A450D2 /* Build configuration list for PBXProject "RichEditorViewSample" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -264,7 +258,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		6B720C7FD832C2688C648355 /* [CP] Check Pods Manifest.lock */ = {
+		4E74B098CF14DF0631DC2B86 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -282,13 +276,13 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		EC2C7387672E1DFFBAB4967D /* [CP] Embed Pods Frameworks */ = {
+		912CF3E5DB1B7FACFF97C026 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-RichEditorViewSample/Pods-RichEditorViewSample-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-RichEditorViewSample/Pods-RichEditorViewSample-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/RichEditorView/RichEditorView.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -297,22 +291,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RichEditorViewSample/Pods-RichEditorViewSample-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F58AA77B1F1E89A768AFC497 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RichEditorViewSample/Pods-RichEditorViewSample-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RichEditorViewSample/Pods-RichEditorViewSample-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -323,7 +302,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				39883B491AD0DC270031FD16 /* KeyboardManager.swift in Sources */,
-				3912A4561B966C34005E41FA /* ObjCViewController.m in Sources */,
 				39BBCFB21AD0CC7A00A450D2 /* ViewController.swift in Sources */,
 				39BBCFB01AD0CC7A00A450D2 /* AppDelegate.swift in Sources */,
 			);
@@ -379,14 +357,17 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -411,7 +392,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -432,14 +413,17 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -457,7 +441,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -468,36 +452,40 @@
 		};
 		39BBCFCA1AD0CC7A00A450D2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9B582B140F0E905BD9BB4CDC /* Pods-RichEditorViewSample.debug.xcconfig */;
+			baseConfigurationReference = C6E2423BEEB12C12D184ACDD /* Pods-RichEditorViewSample.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = XATA46WWFJ;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 3JV32ZE9SY;
 				INFOPLIST_FILE = RichEditorViewSample/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.cjwirth.$(PRODUCT_NAME:rfc1034identifier)";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbess.RichEditorViewSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = teamgaolConfig;
 				SWIFT_OBJC_BRIDGING_HEADER = "RichEditorViewSample/RichEditorViewSample-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
 		39BBCFCB1AD0CC7A00A450D2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DF7C9E8B387E1FE81E9D90D5 /* Pods-RichEditorViewSample.release.xcconfig */;
+			baseConfigurationReference = 9AF21FE45EA87DF1498534F6 /* Pods-RichEditorViewSample.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = XATA46WWFJ;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 3JV32ZE9SY;
 				INFOPLIST_FILE = RichEditorViewSample/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.cjwirth.$(PRODUCT_NAME:rfc1034identifier)";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbess.RichEditorViewSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = teamgaolConfig;
 				SWIFT_OBJC_BRIDGING_HEADER = "RichEditorViewSample/RichEditorViewSample-Bridging-Header.h";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -505,7 +493,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = XATA46WWFJ;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -513,8 +500,7 @@
 				INFOPLIST_FILE = RichEditorViewSampleTests/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cjwirth.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RichEditorViewSample.app/RichEditorViewSample";
 			};
 			name = Debug;
@@ -523,12 +509,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = XATA46WWFJ;
 				INFOPLIST_FILE = RichEditorViewSampleTests/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cjwirth.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RichEditorViewSample.app/RichEditorViewSample";
 			};
 			name = Release;

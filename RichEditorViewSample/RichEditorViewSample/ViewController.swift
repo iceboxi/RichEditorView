@@ -10,12 +10,19 @@ import UIKit
 import RichEditorView
 
 class ViewController: UIViewController {
-
     @IBOutlet var editorView: RichEditorView!
     @IBOutlet var htmlTextView: UITextView!
+    var isTextColor = true
 
     lazy var toolbar: RichEditorToolbar = {
         let toolbar = RichEditorToolbar(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 44))
+//        let options: [RichEditorDefaultOption] = [
+//            .bold, .italic, .underline,
+//            .unorderedList, .orderedList,
+//            .indent, .outdent,
+//            .textColor, .textBackgroundColor,
+//            .undo, .redo,
+//        ]
         toolbar.options = RichEditorDefaultOption.all
         return toolbar
     }()
@@ -25,13 +32,15 @@ class ViewController: UIViewController {
         
         editorView.delegate = self
         editorView.inputAccessoryView = toolbar
-        editorView.placeholder = "Type some text..."
-
+        editorView.placeholder = "Edit here"
+        let html = "<b>Jesus is God.</b> He saves by grace through faith alone. Soli Deo gloria! <a href='https://perfectGod.com'>perfectGod.com</a>"
+        editorView.reloadHTML(with: html)
+        
         toolbar.delegate = self
         toolbar.editor = editorView
 
-        // We will create a custom action that clears all the input text when it is pressed
-        let item = RichEditorOptionItem(image: nil, title: "Clear") { toolbar in
+        // This will create a custom action that clears all the input text when it is pressed
+        let item = RichEditorOptionItem(title: "Clear") { (toolbar, sender) in
             toolbar.editor?.html = ""
         }
 
@@ -43,6 +52,7 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: RichEditorDelegate {
+    func richEditor(_ editor: RichEditorView, heightDidChange height: Int) { }
 
     func richEditor(_ editor: RichEditorView, contentDidChange content: String) {
         if content.isEmpty {
@@ -51,43 +61,85 @@ extension ViewController: RichEditorDelegate {
             htmlTextView.text = content
         }
     }
+
+    func richEditorTookFocus(_ editor: RichEditorView) { }
     
+    func richEditorLostFocus(_ editor: RichEditorView) { }
+    
+    func richEditorDidLoad(_ editor: RichEditorView) { }
+    
+    func richEditor(_ editor: RichEditorView, shouldInteractWith url: URL) -> Bool { return true }
+
+    func richEditor(_ editor: RichEditorView, handleCustomAction content: String) { }
 }
 
-extension ViewController: RichEditorToolbarDelegate {
-
-    fileprivate func randomColor() -> UIColor {
-        let colors: [UIColor] = [
-            .red,
-            .orange,
-            .yellow,
-            .green,
-            .blue,
-            .purple
-        ]
+extension ViewController: RichEditorToolbarDelegate, UIColorPickerViewControllerDelegate {
+    private func presentColorPicker(title: String?, color: UIColor?) {
+        let picker = UIColorPickerViewController()
+        picker.supportsAlpha = false
+        picker.delegate = self
+        picker.title = title
+        if let color = color {
+            picker.selectedColor = color
+        }
         
-        let color = colors[Int(arc4random_uniform(UInt32(colors.count)))]
-        return color
+        present(picker, animated: true, completion: nil)
+    }
+    
+    private func getRGBA(from color: UIColor) -> [CGFloat] {
+        var R: CGFloat = 0
+        var G: CGFloat = 0
+        var B: CGFloat = 0
+        var A: CGFloat = 0
+        
+        color.getRed(&R, green: &G, blue: &B, alpha: &A)
+        
+        return [R, G, B, A]
+    }
+    
+    private func isBlackOrWhite(_ color: UIColor) -> Bool {
+        let RGBA = getRGBA(from: color)
+        let isBlack = RGBA[0] < 0.09 && RGBA[1] < 0.09 && RGBA[2] < 0.09
+        let isWhite = RGBA[0] > 0.91 && RGBA[1] > 0.91 && RGBA[2] > 0.91
+        
+        return isBlack || isWhite
+    }
+    
+    func richEditorToolbarChangeTextColor(_ toolbar: RichEditorToolbar, sender: AnyObject) {
+        isTextColor = true
+        presentColorPicker(title: "Text Color", color: .black)
     }
 
-    func richEditorToolbarChangeTextColor(_ toolbar: RichEditorToolbar) {
-        let color = randomColor()
-        toolbar.editor?.setTextColor(color)
-    }
-
-    func richEditorToolbarChangeBackgroundColor(_ toolbar: RichEditorToolbar) {
-        let color = randomColor()
-        toolbar.editor?.setTextBackgroundColor(color)
+    func richEditorToolbarChangeBackgroundColor(_ toolbar: RichEditorToolbar, sender: AnyObject) {
+        isTextColor = false
+        presentColorPicker(title: "Background Color", color: .white)
     }
 
     func richEditorToolbarInsertImage(_ toolbar: RichEditorToolbar) {
-        toolbar.editor?.insertImage("https://gravatar.com/avatar/696cf5da599733261059de06c4d1fe22", alt: "Gravatar")
+        toolbar.editor?.insertImage("https://avatars2.githubusercontent.com/u/10981?s=60", alt: "Gravatar")
     }
 
     func richEditorToolbarInsertLink(_ toolbar: RichEditorToolbar) {
         // Can only add links to selected text, so make sure there is a range selection first
-        if toolbar.editor?.hasRangeSelection == true {
-            toolbar.editor?.insertLink("http://github.com/cjwirth/RichEditorView", title: "Github Link")
+        toolbar.editor?.hasRangeSelection(handler: { (hasSelection) in
+            if hasSelection {
+                self.toolbar.editor?.insertLink("https://github.com/cbess/RichEditorView", title: "GitHub Link")
+            }
+        })
+    }
+    
+    func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
+        var color: UIColor? = viewController.selectedColor
+        
+        // don't allow black or white color changes
+        if isBlackOrWhite(viewController.selectedColor) {
+            color = nil
+        }
+
+        if isTextColor {
+            toolbar.editor?.setTextColor(color)
+        } else {
+            toolbar.editor?.setTextBackgroundColor(color)
         }
     }
 }
