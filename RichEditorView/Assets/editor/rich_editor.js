@@ -13,30 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- "use strict";
+'use strict';
 
-var RE = {};
-
-window.testFunction = function() {
-
-}
-
-window.onload = function() {
-    RE.callback("ready");
-};
+const RE = {};
 
 RE.editor = document.getElementById('editor');
 
 // Not universally supported, but seems to work in iOS 7 and 8
-document.addEventListener("selectionchange", function() {
+document.addEventListener('selectionchange', function() {
     RE.backuprange();
 });
 
 //looks specifically for a Range selection and not a Caret selection
 RE.rangeSelectionExists = function() {
     //!! coerces a null to bool
-    var sel = document.getSelection();
-    if (sel && sel.type == "Range") {
+    const sel = document.getSelection();
+    if (sel && sel.type == 'Range') {
         return true;
     }
     return false;
@@ -44,26 +36,26 @@ RE.rangeSelectionExists = function() {
 
 RE.rangeOrCaretSelectionExists = function() {
     //!! coerces a null to bool
-    var sel = document.getSelection();
-    if (sel && (sel.type == "Range" || sel.type == "Caret")) {
+    const sel = document.getSelection();
+    if (sel && (sel.type == 'Range' || sel.type == 'Caret')) {
         return true;
     }
     return false;
 };
 
-RE.editor.addEventListener("input", function() {
+RE.editor.addEventListener('input', function() {
     RE.updatePlaceholder();
     RE.backuprange();
-    RE.callback("input");
+    RE.sendInputCallback();
 });
 
-RE.editor.addEventListener("focus", function() {
+RE.editor.addEventListener('focus', function() {
     RE.backuprange();
-    RE.callback("focus");
+    RE.callback('focus');
 });
 
-RE.editor.addEventListener("blur", function() {
-    RE.callback("blur");
+RE.editor.addEventListener('blur', function() {
+    RE.callback('blur');
 });
 
 RE.editor.addEventListener("paste", function(e) {
@@ -120,11 +112,11 @@ RE.editor.addEventListener("paste", function(e) {
 });
 
 RE.customAction = function(action) {
-    RE.callback("action/" + action);
+    RE.callback('action/' + action);
 };
 
 RE.updateHeight = function() {
-    RE.callback("updateHeight");
+    RE.callback('updateHeight');
 }
 
 RE.callbackQueue = [];
@@ -134,14 +126,19 @@ RE.runCallbackQueue = function() {
     }
 
     setTimeout(function() {
-        window.location.href = "re-callback://";
+        window.location.href = 're-callback://';
     }, 0);
 };
 
 RE.getCommandQueue = function() {
-    var commands = JSON.stringify(RE.callbackQueue);
+    let commands = JSON.stringify(RE.callbackQueue);
     RE.callbackQueue = [];
     return commands;
+};
+
+// Tells the editor that the contents have changed, user input action
+RE.sendInputCallback = function() {
+    RE.callback('input');
 };
 
 RE.callback = function(method) {
@@ -150,11 +147,11 @@ RE.callback = function(method) {
 };
 
 RE.setHtml = function(contents) {
-    var tempWrapper = document.createElement('div');
+    let tempWrapper = document.createElement('div');
     tempWrapper.innerHTML = contents;
-    var images = tempWrapper.querySelectorAll("img");
+    let images = tempWrapper.querySelectorAll('img');
 
-    for (var i = 0; i < images.length; i++) {
+    for (let i = 0; i < images.length; i++) {
         images[i].onload = RE.updateHeight;
     }
 
@@ -175,14 +172,14 @@ RE.setBaseTextColor = function(color) {
 };
 
 RE.setPlaceholderText = function(text) {
-    RE.editor.setAttribute("placeholder", text);
+    RE.editor.setAttribute('placeholder', text);
 };
 
 RE.updatePlaceholder = function() {
-    if (RE.editor.innerHTML.indexOf('img') !== -1 || (RE.editor.textContent.length > 0 && RE.editor.innerHTML.length > 0)) {
-        RE.editor.classList.remove("placeholder");
+    if (RE.editor.innerHTML.indexOf('img') !== -1 || RE.editor.innerHTML.length > 0) {
+        RE.editor.classList.remove('placeholder');
     } else {
-        RE.editor.classList.add("placeholder");
+        RE.editor.classList.add('placeholder');
     }
 };
 
@@ -235,17 +232,35 @@ RE.setUnderline = function() {
 };
 
 RE.setTextColor = function(color) {
+    if (!color) {
+        const node = RE.currentSelection.node;
+        if (node) {
+            node.style.color = null;
+            RE.sendInputCallback();
+        }
+        return;
+    }
+    
     RE.restorerange();
-    document.execCommand("styleWithCSS", null, true);
+    document.execCommand('styleWithCSS', null, true);
     document.execCommand('foreColor', false, color);
-    document.execCommand("styleWithCSS", null, false);
+    document.execCommand('styleWithCSS', null, false);
 };
 
 RE.setTextBackgroundColor = function(color) {
+    if (!color) {
+        const node = RE.currentSelection.node;
+        if (node) {
+            node.style.backgroundColor = null;
+            RE.sendInputCallback();
+        }
+        return;
+    }
+    
     RE.restorerange();
-    document.execCommand("styleWithCSS", null, true);
+    document.execCommand('styleWithCSS', null, true);
     document.execCommand('hiliteColor', false, color);
-    document.execCommand("styleWithCSS", null, false);
+    document.execCommand('styleWithCSS', null, false);
 };
 
 RE.setHeading = function(heading) {
@@ -289,13 +304,13 @@ RE.setLineHeight = function(height) {
 };
 
 RE.insertImage = function(url, alt) {
-    var img = document.createElement('img');
-    img.setAttribute("src", url);
-    img.setAttribute("alt", alt);
+    const img = document.createElement('img');
+    img.setAttribute('src', url);
+    img.setAttribute('alt', alt);
     img.onload = RE.updateHeight;
 
     RE.insertHTML(img.outerHTML);
-    RE.callback("input");
+    RE.sendInputCallback();
 };
 
 RE.setBlockquote = function() {
@@ -309,21 +324,21 @@ RE.insertHTML = function(html) {
 
 RE.insertLink = function(url, title) {
     RE.restorerange();
-    var sel = document.getSelection();
+    const sel = document.getSelection();
     if (sel.toString().length !== 0) {
         if (sel.rangeCount) {
+            let el = document.createElement('a');
+            el.setAttribute('href', url);
+            el.setAttribute('title', title);
 
-            var el = document.createElement("a");
-            el.setAttribute("href", url);
-            el.setAttribute("title", title);
-
-            var range = sel.getRangeAt(0).cloneRange();
+            let range = sel.getRangeAt(0).cloneRange();
             range.surroundContents(el);
             sel.removeAllRanges();
             sel.addRange(range);
         }
     }
-    RE.callback("input");
+    
+    RE.sendInputCallback();
 };
 
 RE.prepareInsert = function() {
@@ -331,16 +346,25 @@ RE.prepareInsert = function() {
 };
 
 RE.backuprange = function() {
-    var selection = window.getSelection();
-    if (selection.rangeCount > 0) {
-        var range = selection.getRangeAt(0);
-        RE.currentSelection = {
-            "startContainer": range.startContainer,
-            "startOffset": range.startOffset,
-            "endContainer": range.endContainer,
-            "endOffset": range.endOffset
-        };
+    const selection = window.getSelection();
+    if (selection.rangeCount === 0) {
+        return;
     }
+    
+    let node = selection.anchorNode;
+    if (node.nodeType === 3) {
+        // use the parent, if text node
+        node = node.parentNode;
+    }
+    
+    const range = selection.getRangeAt(0);
+    RE.currentSelection = {
+        startContainer: range.startContainer,
+        startOffset: range.startOffset,
+        endContainer: range.endContainer,
+        endOffset: range.endOffset,
+        node,
+    };
 };
 
 RE.addRangeToSelection = function(selection, range) {
@@ -352,35 +376,35 @@ RE.addRangeToSelection = function(selection, range) {
 
 // Programatically select a DOM element
 RE.selectElementContents = function(el) {
-    var range = document.createRange();
+    let range = document.createRange();
     range.selectNodeContents(el);
-    var sel = window.getSelection();
+    let sel = window.getSelection();
     // this.createSelectionFromRange sel, range
     RE.addRangeToSelection(sel, range);
 };
 
 RE.restorerange = function() {
-    var selection = window.getSelection();
+    let selection = window.getSelection();
     selection.removeAllRanges();
-    var range = document.createRange();
+    let range = document.createRange();
     range.setStart(RE.currentSelection.startContainer, RE.currentSelection.startOffset);
     range.setEnd(RE.currentSelection.endContainer, RE.currentSelection.endOffset);
     selection.addRange(range);
 };
 
 RE.focus = function() {
-    var range = document.createRange();
+    let range = document.createRange();
     range.selectNodeContents(RE.editor);
     range.collapse(false);
-    var selection = window.getSelection();
+    let selection = window.getSelection();
     selection.removeAllRanges();
     selection.addRange(range);
     RE.editor.focus();
 };
 
 RE.focusAtPoint = function(x, y) {
-    var range = document.caretRangeFromPoint(x, y) || document.createRange();
-    var selection = window.getSelection();
+    const range = document.caretRangeFromPoint(x, y) || document.createRange();
+    const selection = window.getSelection();
     selection.removeAllRanges();
     selection.addRange(range);
     RE.editor.focus();
@@ -393,7 +417,7 @@ RE.blurFocus = function() {
 /**
 Recursively search element ancestors to find a element nodeName e.g. A
 **/
-var _findNodeByNameInContainer = function(element, nodeName, rootElementId) {
+const _findNodeByNameInContainer = function(element, nodeName, rootElementId) {
     if (element.nodeName == nodeName) {
         return element;
     } else {
@@ -404,12 +428,12 @@ var _findNodeByNameInContainer = function(element, nodeName, rootElementId) {
     }
 };
 
-var isAnchorNode = function(node) {
-    return ("A" == node.nodeName);
+const isAnchorNode = function(node) {
+    return ('A' == node.nodeName);
 };
 
 RE.getAnchorTagsInNode = function(node) {
-    var links = [];
+    let links = [];
 
     while (node.nextSibling !== null && node.nextSibling !== undefined) {
         node = node.nextSibling;
@@ -429,42 +453,41 @@ RE.countAnchorTagsInNode = function(node) {
  * @returns {string}
  */
 RE.getSelectedHref = function() {
-    var href, sel;
-    href = '';
-    sel = window.getSelection();
+    let href = '';
+    let sel = window.getSelection();
     if (!RE.rangeOrCaretSelectionExists()) {
         return null;
     }
 
-    var tags = RE.getAnchorTagsInNode(sel.anchorNode);
+    let tags = RE.getAnchorTagsInNode(sel.anchorNode);
     //if more than one link is there, return null
     if (tags.length > 1) {
         return null;
     } else if (tags.length == 1) {
         href = tags[0];
     } else {
-        var node = _findNodeByNameInContainer(sel.anchorNode.parentElement, 'A', 'editor');
+        let node = _findNodeByNameInContainer(sel.anchorNode.parentElement, 'A', 'editor');
         href = node.href;
     }
 
-    return href ? href : null;
+    return (href ? href : null);
 };
 
 // Returns the cursor position relative to its current position onscreen.
 // Can be negative if it is above what is visible
 RE.getRelativeCaretYPosition = function() {
-    var y = 0;
-    var sel = window.getSelection();
+    let y = 0;
+    let sel = window.getSelection();
     if (sel.rangeCount) {
-        var range = sel.getRangeAt(0);
-        var needsWorkAround = (range.startOffset == 0)
+        const range = sel.getRangeAt(0);
+        const needsWorkAround = (range.startOffset == 0);
         /* Removing fixes bug when node name other than 'div' */
         // && range.startContainer.nodeName.toLowerCase() == 'div');
         if (needsWorkAround) {
             y = range.startContainer.offsetTop - window.pageYOffset;
         } else {
             if (range.getClientRects) {
-                var rects=range.getClientRects();
+                let rects = range.getClientRects();
                 if (rects.length > 0) {
                     y = rects[0].top;
                 }
@@ -473,4 +496,8 @@ RE.getRelativeCaretYPosition = function() {
     }
 
     return y;
+};
+
+window.onload = function() {
+    RE.callback('ready');
 };
