@@ -74,39 +74,8 @@ RE.editor.addEventListener("paste", function(e) {
         divContent.id = 'editor-div'
         document.body.append(divContent);
         word_filter($('#editor-div'));
-        // let pTags = divContent.getElementsByTagName('p');
-        let spanTags = divContent.getElementsByTagName('span');;
-        let ImgTags = divContent.getElementsByTagName('img');
-        let svgTags = divContent.getElementsByTagName('svg');
-
-        // let pList = Array.prototype.slice.call(pTags);
-        let spanList = Array.prototype.slice.call(spanTags);
-        let ImgList = Array.prototype.slice.call(ImgTags);
-        let svgList = Array.prototype.slice.call(svgTags);
-
-
-        if (spanList !== null && spanList !== undefined) {
-            spanList.forEach(ele => {
-                ele.style = '';
-            })
-        }
-
-        if (ImgList !== null && ImgList !== undefined) {
-            ImgList.forEach(ele => {
-                ele.parentNode.removeChild(ele);
-            })
-        }
-
-        if (svgList !== null && svgList !== undefined) {
-            svgList.forEach(ele => {
-                ele.parentNode.removeChild(ele);
-            })
-        }
-
         let lastPasteHtml = divContent.innerHTML;
-
         window.document.execCommand('insertHTML', false, lastPasteHtml);
-
         document.body.removeChild(divContent);
     }
 });

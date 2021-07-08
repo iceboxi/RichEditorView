@@ -23,13 +23,6 @@
     function word_filter(editor) {
       var content = editor.html();
 
-      // Word comments like conditional comments etc
-      content = content.replace(/<!--[\s\S]+?-->/gi, '');
-
-      // Remove comments, scripts (e.g., msoShowComment), XML tag, VML content,
-      // MS Office namespaced tags, and a few other tags
-      content = content.replace(/<(!|script[^>]*>.*?<\/script(?=[>\s])|\/?(\?xml(:\w+)?|img|meta|link|style|\w:\w+)(?=[\s\/>]))[^>]*>/gi, '');
-
       // Convert <s> into <strike> for line-though
       content = content.replace(/<(\/?)s>/gi, "<$1strike>");
 
@@ -44,6 +37,11 @@
       });
 
       editor.html(content);
+
+      //刪除不必要元素
+      $('img, svg, select, form, iframe', editor).each(function () {
+        $(this).remove();
+      })
 
       // Parse out list indent level for lists
       $('p', editor).each(function () {
@@ -88,7 +86,9 @@
               $(this).before(list_tag);
               pnt = $(this).prev();
             } else {
-              pnt = $(list_tag).appendTo(pnt);
+              let list_tag_ele = $(list_tag);
+              list_tag_ele.removeAttr("style");
+              pnt = list_tag_ele.appendTo(pnt);
             }
             listLevelArr.push(cur_level)
           }
@@ -121,7 +121,7 @@
         $(this).attr('style', '');
         $(this).css("marginLeft", marginLeftStr);
       })
-      
+
       $('ul, ol', editor).each(function () {
         let marginLeftStr = $(this).css("marginLeft");
         $(this).removeAttr("style");
@@ -129,8 +129,17 @@
         $(this).css("wordBreak", 'word-break: break-all')
       })
 
-      $('b, i, u, s, font, a, code, button, strong', editor).each(function () {
-        console.log($(this));
+      //連結跟按鈕類通常在外層，先做第一次 replace
+      $('a, button', editor).each(function () {
+        console.log(this);
+        $(this).replaceWith(function(){
+            return $("<span />", {html: $(this).html()});
+        });
+      })
+
+      //關於字形 tag 都過濾為基本 span 格式
+      $('cite, b, i, u, s, font, code, strong, em, cite, strike', editor).each(function () {
+        console.log(this);
         $(this).replaceWith(function(){
             return $("<span />", {html: $(this).html()});
         });
@@ -151,12 +160,38 @@
         });
       })
 
-      $('p, div', editor).each(function () {
+      //關於表格部分獎 tag 都轉成 P 只先顯示文字，看之後格式需要再做變換
+      $('table, tbody, tr, td', editor).each(function () {
+        $(this).replaceWith(function () {
+          let marginLeftStr = $(this).css("marginLeft");
+          let replace = $("<p />", { html: $(this).html() })
+          // replace.css("marginLeft", marginLeftStr);
+          return replace;
+        });
+      })
+
+      //將未處裡的 tag 都將 css 保留只剩 marginLeft textIndent
+      $(':not(p, div, span, ol, li, ul)', editor).each(function () {
         let marginLeftStr = $(this).css("marginLeft");
         let textIndentStr = $(this).css("textIndent");
         $(this).removeAttr("style");
+        $(this).removeAttr("class");
         $(this).css("marginLeft", marginLeftStr);
         $(this).css("textIndent", textIndentStr);
+      })
+
+      $('p, div', editor).each(function () {
+        let marginLeftInt = parseInt($(this).css("marginLeft").replace('px', ''));
+        let textIndenInt = parseInt($(this).css("textIndent").replace('px', ''));
+        let marginLeftStrTrans = `${marginLeftInt + textIndenInt > 0 ? marginLeftInt + textIndenInt : 0}px`
+        $(this).removeAttr("style");
+        $(this).removeAttr("class");
+        $(this).css("marginLeft", marginLeftStrTrans);
+      })
+
+      
+      $('span', editor).each(function () {
+        $(this).removeAttr("style");
       })
 
       // $('[style]', editor).removeAttr('style');
@@ -165,6 +200,19 @@
       $('span:empty', editor).remove();
       $("[class^='Mso']", editor).removeAttr('class');
       $('p:empty', editor).remove();
+      
+
+      //最後把相關 class 語言跟備註給刪掉
+
+      var content = editor.html();
+
+      // Word comments like conditional comments etc
+      content = content.replace(/<!--[\s\S]+?-->/gi, '');
+
+      // Remove comments, scripts (e.g., msoShowComment), XML tag, VML content,
+      // MS Office namespaced tags, and a few other tags
+      content = content.replace(/<(!|script[^>]*>.*?<\/script(?=[>\s])|\/?(\?xml(:\w+)?|img|meta|link|style|\w:\w+)(?=[\s\/>]))[^>]*>/gi, '');
+      editor.html(content);
     }
   </script>
 </body>
