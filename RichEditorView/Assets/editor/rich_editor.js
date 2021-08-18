@@ -93,7 +93,7 @@ RE.runCallbackQueue = function() {
     if (RE.callbackQueue.length === 0) {
         return;
     }
-
+    
     setTimeout(function() {
         window.location.href = 're-callback://';
     }, 0);
@@ -119,11 +119,11 @@ RE.setHtml = function(contents) {
     let tempWrapper = document.createElement('div');
     tempWrapper.innerHTML = contents;
     let images = tempWrapper.querySelectorAll('img');
-
+    
     for (let i = 0; i < images.length; i++) {
         images[i].onload = RE.updateHeight;
     }
-
+    
     RE.editor.innerHTML = tempWrapper.innerHTML;
     RE.updatePlaceholder();
 };
@@ -162,10 +162,15 @@ RE.setFontSize = function(size) {
 
 RE.setBackgroundColor = function(color) {
     RE.editor.style.backgroundColor = color;
+    document.body.style.backgroundColor = color;
 };
 
 RE.setHeight = function(size) {
     RE.editor.style.height = size;
+};
+
+RE.setWidth = function(size) {
+    RE.editor.style.width = size;
 };
 
 RE.undo = function() {
@@ -277,7 +282,7 @@ RE.insertImage = function(url, alt) {
     img.setAttribute('src', url);
     img.setAttribute('alt', alt);
     img.onload = RE.updateHeight;
-
+    
     RE.insertHTML(img.outerHTML);
     RE.sendInputCallback();
 };
@@ -299,7 +304,7 @@ RE.insertLink = function(url, title) {
             let el = document.createElement('a');
             el.setAttribute('href', url);
             el.setAttribute('title', title);
-
+            
             let range = sel.getRangeAt(0).cloneRange();
             range.surroundContents(el);
             sel.removeAllRanges();
@@ -384,8 +389,8 @@ RE.blurFocus = function() {
 };
 
 /**
-Recursively search element ancestors to find a element nodeName e.g. A
-**/
+ Recursively search element ancestors to find a element nodeName e.g. A
+ **/
 const _findNodeByNameInContainer = function(element, nodeName, rootElementId) {
     if (element.nodeName == nodeName) {
         return element;
@@ -403,7 +408,7 @@ const isAnchorNode = function(node) {
 
 RE.getAnchorTagsInNode = function(node) {
     let links = [];
-
+    
     while (node.nextSibling !== null && node.nextSibling !== undefined) {
         node = node.nextSibling;
         if (isAnchorNode(node)) {
@@ -427,7 +432,7 @@ RE.getSelectedHref = function() {
     if (!RE.rangeOrCaretSelectionExists()) {
         return null;
     }
-
+    
     let tags = RE.getAnchorTagsInNode(sel.anchorNode);
     //if more than one link is there, return null
     if (tags.length > 1) {
@@ -438,7 +443,7 @@ RE.getSelectedHref = function() {
         let node = _findNodeByNameInContainer(sel.anchorNode.parentElement, 'A', 'editor');
         href = node.href;
     }
-
+    
     return (href ? href : null);
 };
 
@@ -463,10 +468,11 @@ RE.getRelativeCaretYPosition = function() {
             }
         }
     }
-
+    
     return y;
 };
 
 window.onload = function() {
     RE.callback('ready');
 };
+

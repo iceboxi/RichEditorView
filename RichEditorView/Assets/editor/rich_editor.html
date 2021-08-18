@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=yes">
     <meta name="supported-color-schemes" content="light dark">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" type="text/css" href="normalize.css"> 
@@ -45,149 +45,131 @@
 
       // Parse out list indent level for lists
       $('p', editor).each(function () {
-        var str = $(this).attr('style');
-        str = ClearBr(str)
-        console.log('style', str);
-        var matches = /mso-list:\w+ \w+([0-9]+)/.exec(str);
-        if (matches) {
-          $(this).data('_listLevel', parseInt(matches[1], 10));
+      let marginLeftStr = parseInt($(this).css("marginLeft").replace('px', ''));
+      let textIndentStr = parseInt($(this).css("textIndent").replace('px', ''));
+      let marginLeftStrTrans = `${marginLeftStr + textIndentStr}px`
+      // console.log('marginLeftStr', marginLeftStr);
+      // console.log('text',  $(this).text());
+      let style = `style="margin-left: ${marginLeftStrTrans}"`;
+      var cur_level = $(this).data('_listLevel');
+      if (cur_level != undefined) {
+        var txt = $(this).text();
+        var list_tag = `<ul ${style}></ul>`;
+        if (/^\s*\w+\./.test(txt)) {
+          var matches = /([0-9])\./.exec(txt);
+          if (matches) {
+            var start = parseInt(matches[1], 10);
+            list_tag = start > 1 ? `<ol ${style} start="` + start + '"></ol>' : `<ol ${style}></ol>`;
+          } else {
+            list_tag = `<ol ${style}></ol>`;
+          }
         }
+
+        console.log('list_tag', list_tag);
+
+        if (cur_level > last_level) {
+          if (last_level == 0) {
+            $(this).before(list_tag);
+            pnt = $(this).prev();
+          } else {
+            let list_tag_ele = $(list_tag);
+            list_tag_ele.removeAttr("style");
+            pnt = list_tag_ele.appendTo(pnt);
+          }
+          listLevelArr.push(cur_level)
+        }
+        if (cur_level < last_level) {
+          let listLength = listLevelArr.length;
+          for (var i = 0; i < listLength; i++) {
+            let level = listLevelArr.pop();
+            if(cur_level >= level) {
+              // listLevelArr.push(level);
+              break;
+            }
+            else {
+                pnt = pnt.parent();
+            }
+          }
+        }
+        $('span:first', this).remove();
+        // if(pnt !== null) {
+          //透過更改 margin-left 讓文章更貼近於 word 顯示
+          pnt.append(`<li style="margin-left:-24px;">` + $(this).html() + '</li>')
+        // }
+        $(this).remove();
+        last_level = cur_level;
+      } else {
+        last_level = 0;
+      }
+    })
+
+    $('li', editor).each(function () {
+      let marginLeftStr = $(this).css("marginLeft");
+      $(this).attr('style', '');
+      $(this).css("marginLeft", marginLeftStr);
+    })
+
+    $('ul, ol', editor).each(function () {
+      let marginLeftStr = $(this).css("marginLeft");
+      $(this).removeAttr("style");
+      $(this).css("marginLeft", marginLeftStr);
+      $(this).css("paddingLeft", '48px'); //透過更改 padding left 讓文章更貼近於 word 顯示
+      $(this).css("wordBreak", 'break-all')
+      $(this).css("marginTop", '6px');
+      $(this).css("marginBottom", '6px');
+    })
+
+    //連結跟按鈕類通常在外層，先做第一次 replace
+    $('a, button', editor).each(function () {
+      console.log(this);
+      $(this).replaceWith(function(){
+          return $("<span />", {html: $(this).html()});
       });
+    })
 
-      // Parse Lists
-      var last_level = 0;
-      var pnt = null;
-      let listLevelArr = [0];
-      $('p', editor).each(function () {
-        let marginLeftStr = parseInt($(this).css("marginLeft").replace('px', ''));
-        let textIndentStr = parseInt($(this).css("textIndent").replace('px', ''));
-        let marginLeftStrTrans = `${marginLeftStr + textIndentStr}px`
-        // console.log('marginLeftStr', marginLeftStr);
-        // console.log('text',  $(this).text());
-        let style = `style="margin-left: ${marginLeftStrTrans}"`;
-        var cur_level = $(this).data('_listLevel');
-        if (cur_level != undefined) {
-          var txt = $(this).text();
-          var list_tag = `<ul ${style}></ul>`;
-          if (/^\s*\w+\./.test(txt)) {
-            var matches = /([0-9])\./.exec(txt);
-            if (matches) {
-              var start = parseInt(matches[1], 10);
-              list_tag = start > 1 ? `<ol ${style} start="` + start + '"></ol>' : `<ol ${style}></ol>`;
-            } else {
-              list_tag = `<ol ${style}></ol>`;
-            }
-          }
+    //關於字形 tag 都過濾為基本 span 格式
+    $('cite, b, i, u, s, font, code, strong, em, cite, strike', editor).each(function () {
+      console.log(this);
+      $(this).replaceWith(function(){
+          return $("<span />", {html: $(this).html()});
+      });
+    })
 
-          console.log('list_tag', list_tag);
+    $('u', editor).each(function () {
+      $(this).replaceWith(function(){
+          return $("<span />", {html: $(this).html()});
+      });
+    })
 
-          if (cur_level > last_level) {
-            if (last_level == 0) {
-              $(this).before(list_tag);
-              pnt = $(this).prev();
-            } else {
-              let list_tag_ele = $(list_tag);
-              list_tag_ele.removeAttr("style");
-              pnt = list_tag_ele.appendTo(pnt);
-            }
-            listLevelArr.push(cur_level)
-          }
-          if (cur_level < last_level) {
-            let listLength = listLevelArr.length;
-            for (var i = 0; i < listLength; i++) {
-              let level = listLevelArr.pop();
-              if(cur_level >= level) {
-                // listLevelArr.push(level);
-                break;
-              }
-              else {
-                  pnt = pnt.parent();
-              }
-            }
-          }
-          $('span:first', this).remove();
-          // if(pnt !== null) {
-            pnt.append('<li>' + $(this).html() + '</li>')
-          // }
-          $(this).remove();
-          last_level = cur_level;
-        } else {
-          last_level = 0;
-        }
-      })
-
-      $('li', editor).each(function () {
-        let marginLeftStr = $(this).css("marginLeft");
-        $(this).attr('style', '');
-        $(this).css("marginLeft", marginLeftStr);
-      })
-
-      $('ul, ol', editor).each(function () {
-        let marginLeftStr = $(this).css("marginLeft");
-        $(this).removeAttr("style");
-        $(this).css("marginLeft", marginLeftStr);
-        $(this).css("wordBreak", 'word-break: break-all')
-      })
-
-      //連結跟按鈕類通常在外層，先做第一次 replace
-      $('a, button', editor).each(function () {
-        console.log(this);
-        $(this).replaceWith(function(){
-            return $("<span />", {html: $(this).html()});
-        });
-      })
-
-      //關於字形 tag 都過濾為基本 span 格式
-      $('cite, b, i, u, s, font, code, strong, em, cite, strike', editor).each(function () {
-        console.log(this);
-        $(this).replaceWith(function(){
-            return $("<span />", {html: $(this).html()});
-        });
-      })
-
-      $('u', editor).each(function () {
-        $(this).replaceWith(function(){
-            return $("<span />", {html: $(this).html()});
-        });
-      })
-
-      $('h1, h2, h3 , h4, h5', editor).each(function () {
-        $(this).replaceWith(function(){
-            let marginLeftStr = $(this).css("marginLeft");
-            let replace = $("<p />", {html: $(this).html()})
-            // replace.css("marginLeft", marginLeftStr);
-            return replace;
-        });
-      })
-
-      //關於表格部分獎 tag 都轉成 P 只先顯示文字，看之後格式需要再做變換
-      $('table, tbody, tr, td', editor).each(function () {
-        $(this).replaceWith(function () {
+    $('h1, h2, h3 , h4, h5, header', editor).each(function () {
+      $(this).replaceWith(function(){
           let marginLeftStr = $(this).css("marginLeft");
-          let replace = $("<p />", { html: $(this).html() })
+          let replace = $("<p />", {html: $(this).html()})
           // replace.css("marginLeft", marginLeftStr);
           return replace;
-        });
-      })
+      });
+    })
 
-      //將未處裡的 tag 都將 css 保留只剩 marginLeft textIndent
-      $(':not(p, div, span, ol, li, ul)', editor).each(function () {
-        let marginLeftStr = $(this).css("marginLeft");
-        let textIndentStr = $(this).css("textIndent");
-        $(this).removeAttr("style");
-        $(this).removeAttr("class");
-        $(this).css("marginLeft", marginLeftStr);
-        $(this).css("textIndent", textIndentStr);
-      })
+    //將未處裡的 tag 都將 css 保留只剩 marginLeft textIndent
+    $(':not(p, div, span, ol, li, ul)', editor).each(function () {
+      let marginLeftStr = $(this).css("marginLeft");
+      let textIndentStr = $(this).css("textIndent");
+      $(this).removeAttr("style");
+      $(this).removeAttr("class");
+      $(this).css("marginLeft", marginLeftStr);
+      $(this).css("textIndent", textIndentStr);
+    })
 
-      $('p, div', editor).each(function () {
-        let marginLeftInt = parseInt($(this).css("marginLeft").replace('px', ''));
-        let textIndenInt = parseInt($(this).css("textIndent").replace('px', ''));
-        let marginLeftStrTrans = `${marginLeftInt + textIndenInt > 0 ? marginLeftInt + textIndenInt : 0}px`
-        $(this).removeAttr("style");
-        $(this).removeAttr("class");
-        $(this).css("marginLeft", marginLeftStrTrans);
-      })
+    $('p, div', editor).each(function () {
+      let marginLeftInt = parseInt($(this).css("marginLeft").replace('px', ''));
+      let textIndenInt = parseInt($(this).css("textIndent").replace('px', ''));
+      let marginLeftStrTrans = `${marginLeftInt + textIndenInt > 0 ? marginLeftInt + textIndenInt : 0}px`
+      $(this).removeAttr("style");
+      $(this).removeAttr("class");
+      $(this).css("marginLeft", marginLeftStrTrans);
+      $(this).css("marginTop", '0px');
+      $(this).css("marginBottom", '4px');
+    })
 
       
       $('span', editor).each(function () {

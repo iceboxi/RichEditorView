@@ -65,7 +65,10 @@ private let DefaultInnerLineHeight: Int = 21
     
     /// Whether or not to allow user input in the view.
     open var editingEnabled: Bool = false {
-        didSet { contentEditable = editingEnabled }
+        didSet {
+            contentEditable = editingEnabled
+            webView.editingEnabled = editingEnabled
+        }
     }
     
     /// The content HTML of the text being displayed.
@@ -151,6 +154,12 @@ private let DefaultInnerLineHeight: Int = 21
         addSubview(webView)
         
         reloadHTML(with: html)
+    }
+    
+    func canReley(_ account: AccountBaseModel?, _ quoteRefID: String?) {
+        webView.replyEnabled = true
+        webView.account = account
+        webView.quoteRefID = quoteRefID
     }
     
     /// Reloads the HTML for the editor.
